@@ -10,5 +10,6 @@ namespace OwnerService.Controllers
         Task<IActionResult> DeleteOwner(int id);
         Task<IActionResult> GetOwnerByIdAsync(int id);
         Task<IActionResult> GetOwners();
+        Task<IActionResult> HealthCheck();
     }
 }

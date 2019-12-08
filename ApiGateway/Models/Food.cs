@@ -7,7 +7,7 @@ namespace ApiGateway.Models
 {
     public class Food
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Name { get; set; }
         public string Producer { get; set; }
         public string Doze { get; set; }

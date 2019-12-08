@@ -11,6 +11,7 @@ namespace ApiGateway.Clients
         Task<Food> AddNewFood(Food food);
         Task<bool> DeleteFood(int ownerId);
         Task<IEnumerable<Food>> GetFoods();
+        Task<bool> HealthCheck();
 
 
     }

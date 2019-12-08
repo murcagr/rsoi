@@ -1,4 +1,5 @@
-﻿using ApiGateway.Models;
+﻿using ApiGateway.Exceptions;
+using ApiGateway.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -27,24 +28,39 @@ namespace ApiGateway.Clients
             string content = await resp.Content.ReadAsStringAsync();
             if (resp.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<Food>(content);
-
-            return null;
+            else if (resp.StatusCode == HttpStatusCode.BadRequest)
+                throw new RequestException(content);
+            else
+                throw new InternalException($"Error while adding food!\n" +
+                     $"Code {resp.StatusCode} with {content}.");
         }
 
         public async Task<bool> DeleteFood(int id)
         {
             var resp = await _httpClient.DeleteAsync($"{id}");
+            string content = await resp.Content.ReadAsStringAsync();
 
-            return true;
+            if (resp.IsSuccessStatusCode)
+                return true;
+            else if (resp.StatusCode == HttpStatusCode.BadRequest)
+                throw new RequestException(content);
+            else
+                throw new InternalException($"Error while deleting food!\n" +
+                     $"Code {resp.StatusCode} with {content}.");
         }
 
         public async Task<Food> GetFoodByIdAsync(int id)
         {
             var resp = await _httpClient.GetAsync($"{id}");
             string content = await resp.Content.ReadAsStringAsync();
-            var cats = JsonConvert.DeserializeObject<Food>(content);
 
-            return cats;
+            if (resp.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<Food>(content);
+            else if (resp.StatusCode == HttpStatusCode.BadRequest)
+                throw new RequestException(content);
+            else
+                throw new InternalException($"Error while getting food by id!\n" +
+                     $"Code {resp.StatusCode} with {content}.");
         }
 
         public async Task<IEnumerable<Food>> GetFoods()
@@ -54,8 +70,18 @@ namespace ApiGateway.Clients
 
             if (resp.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<IEnumerable<Food>>(content);
+            else if (resp.StatusCode == HttpStatusCode.BadRequest)
+                throw new RequestException(content);
+            else
+                throw new InternalException($"Error while getting all food!\n" +
+                     $"Code {resp.StatusCode} with {content}.");
 
-            return null;
+        }
+        public async Task<bool> HealthCheck()
+        {
+            var resp = await _httpClient.GetAsync("status");
+
+            return resp.IsSuccessStatusCode;
         }
     }
 }

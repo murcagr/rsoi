@@ -79,7 +79,12 @@ namespace OwnerService.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
+        }
 
+        [HttpGet("status")]
+        public async Task<IActionResult> HealthCheck()
+        {
+            return Ok();
         }
     }
 }

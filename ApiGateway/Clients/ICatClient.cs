@@ -14,6 +14,7 @@ namespace ApiGateway.Clients
         Task<Cat> AddNewCat(Cat cat);
         Task<IEnumerable<Cat>> DeleteCatsByOwnerIdAsync(int ownerId);
         Task<bool> DeleteCat(int ownerId);
+        Task<bool> HealthCheck();
 
 
     }

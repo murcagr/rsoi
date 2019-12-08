@@ -147,13 +147,13 @@ class CatsTable extends Component {
                                         {row.cat.breed}
                                     </TableCell>
 
-                                    <TableCell align="right">{row.owner != null ? row.owner.id : "No owner"}<br />
-                                        {row.owner != null ? row.owner.name : ""}<br />
+                                    <TableCell align="right">{row.owner != null ? row.owner.id : ""}<br />
+                                        {row.owner != null ? row.owner.name : "No owner"}<br />
                                         {row.owner != null ? row.owner.city : ""}<br />
                                         {row.owner != null ? row.owner.age : ""}
                                     </TableCell>
-                                    <TableCell align="right">{row.food != null ? row.food.id : "No food"}<br />
-                                        {row.food != null ? row.food.name : ""}<br />
+                                    <TableCell align="right">{row.food != null ? row.food.id : ""}<br />
+                                        {row.food != null ? row.food.name : "No food"}<br />
                                         {row.food != null ? row.food.producer : ""}<br />
                                         {row.food != null ? row.food.doze : ""}<br />
                                     </TableCell>

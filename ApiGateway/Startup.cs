@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Extensions.Http;
 using Microsoft.AspNetCore.Mvc;
+using ApiGateway.Queue;
 
 namespace ApiGateway
 {
@@ -34,20 +35,27 @@ namespace ApiGateway
             var connectionsSection = Configuration.GetSection("Connections");
             
             services.Configure<Connections>(connectionsSection);
-            services.AddTransient<GwService>();
+            
             services.AddHttpClient<ICatClient, CatClient>(client =>
             {
                 client.BaseAddress = new Uri(connectionsSection.Get<Connections>().CatsAPIUrl);
-            });
+            })
+            .AddPolicyHandler(GetRetryPolicy())
+            .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<IOwnerClient, OwnerClient>(client =>
             {
                 client.BaseAddress = new Uri(connectionsSection.Get<Connections>().OwnersApiUrl);
-            });
+            })
+            .AddPolicyHandler(GetRetryPolicy())
+            .AddPolicyHandler(GetCircuitBreakerPolicy());
+
             services.AddHttpClient<IFoodClient, FoodClient>(client =>
             {
                 client.BaseAddress = new Uri(connectionsSection.Get<Connections>().FoodsAPIUrl);
-            });
+            })
+            .AddPolicyHandler(GetRetryPolicy())
+            .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
@@ -56,6 +64,15 @@ namespace ApiGateway
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+
+
+            services.AddSingleton(new CatQueue());
+            services.AddSingleton(new OwnerQueue());
+            services.AddHostedService<QueueService>();
+
+            services.AddTransient<GwService>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,5 +91,23 @@ namespace ApiGateway
             app.UseHttpsRedirection();
             app.UseMvc();
         }
+
+        private static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .CircuitBreakerAsync(3, TimeSpan.FromSeconds(30), (ex, dur) => { Console.WriteLine("CircuitBreaker opened"); }, () => { Console.WriteLine("CircuitBreaker reset"); });
+        }
+
+        private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (exception, timeSpan, retryCount, context) =>
+                {
+                    Console.WriteLine("Retry attempt!");
+                });
+        }
     }
+
 }

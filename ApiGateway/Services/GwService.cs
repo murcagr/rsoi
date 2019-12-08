@@ -1,5 +1,7 @@
 ﻿using ApiGateway.Clients;
+using ApiGateway.Exceptions;
 using ApiGateway.Models;
+using ApiGateway.Queue;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +14,17 @@ namespace ApiGateway.Services
         private readonly IOwnerClient _ownerClient;
         private readonly ICatClient _catClient;
         private readonly IFoodClient _foodClient;
+        private readonly CatQueue _catQueue;
+        private readonly OwnerQueue _ownerQueue;
 
-        public GwService(IOwnerClient ownerClient, ICatClient catClient, IFoodClient foodClient)
+        public GwService(IOwnerClient ownerClient, ICatClient catClient, 
+            IFoodClient foodClient, CatQueue catQueue, OwnerQueue ownerQueue)
         {
             _ownerClient = ownerClient;
             _catClient = catClient;
             _foodClient = foodClient;
+            _ownerQueue = ownerQueue;
+            _catQueue = catQueue;
 
         }
 
@@ -109,7 +116,7 @@ namespace ApiGateway.Services
             return resp;
         }
 
-        public async Task<OwnerCats> GetOwnerAndCats(int id)
+       public async Task<OwnerCats> GetOwnerAndCats(int id)
        {
             var ownerResp = await _ownerClient.GetOwnerByIdAsync(id);
             var catResp = await _catClient.GetCatsByOwnerIdAsync(id);
@@ -122,23 +129,40 @@ namespace ApiGateway.Services
        {
             
             var ownerResp = await _ownerClient.AddOwner(ownerCats.Owner);
-            ownerCats.Cat.OwnerId = ownerResp.Id;
-            var catResp = await _catClient.AddNewCat(ownerCats.Cat);
 
-            var ownercatResp = new OwnerCat(catResp, ownerResp);
+            try
+            {
+                ownerCats.Cat.OwnerId = ownerResp.Id;
+                var catResp = await _catClient.AddNewCat(ownerCats.Cat);
+                var ownercatResp = new OwnerCat(catResp, ownerResp);
+                return ownercatResp;
+            }
+            catch (InternalException e)
+            {
+                ownerResp = await _ownerClient.DeleteOwner(ownerResp.Id);
+                throw e;
+            }
+            catch (RequestException e)
+            {
+                ownerResp = await _ownerClient.DeleteOwner(ownerResp.Id);
+                throw e;
+            }
 
-            return ownercatResp;
-       }
+        }
 
         public async Task<CatOwnerFood> AddFoodOwnerCat(CatOwnerFood cof)
         {
+            cof.Cat.OwnerId = null;
+            cof.Cat.FoodId = null;
+            Food foodResp = new Food();
+            Owner ownerResp = new Owner();
 
-            var ownerResp = await _ownerClient.AddOwner(cof.Owner);
-            var foodResp = await _foodClient.AddNewFood(cof.Food);
-
+            ownerResp = await _ownerClient.AddOwner(cof.Owner);
             cof.Cat.OwnerId = ownerResp.Id;
+           
+            foodResp = await _foodClient.AddNewFood(cof.Food);
             cof.Cat.FoodId = foodResp.Id;
-
+           
             var catResp = await _catClient.AddNewCat(cof.Cat);
 
             var catownerfoodResp = new CatOwnerFood(catResp, ownerResp, foodResp);
@@ -151,36 +175,6 @@ namespace ApiGateway.Services
             var catResp = await _catClient.GetCats(size, pageSize);
             var catList = catResp.ToList();
 
-            //var ownerResp = await _ownerClient.GetOwners();
-            //var ownerList = ownerResp.ToList();
-            //var foodResp = await _foodClient.GetFoods();
-            //var foodList = foodResp.ToList();
-
-            //List<OwnerCat> ownerCats = new List<OwnerCat>(); 
-
-            //for (int i = 0; i < catResp.Count(); i++)
-            //{
-            //    for (int j = 0; j < ownerResp.Count(); j++)
-            //    {
-            //        if (catList[i].OwnerId == ownerList[j].Id)
-            //        {
-            //            ownerCats.Add(new OwnerCat(catList[i], ownerList[j]));
-            //        }
-            //    }
-            //}
-
-            //List<CatOwnerFood> catOwnerFoods = new List<CatOwnerFood>();
-            //for (int i = 0; i < catResp.Count(); i++)
-            //{
-            //    for (int j = 0; j < foodResp.Count(); j++)
-            //    {
-            //        if (catList[i].FoodId == foodList[j].Id)
-            //        {
-            //            ownerCats.Add(new CatOwnerFood(o, ownerList[j]));
-            //        }
-            //    }
-            //}
-
             List<CatOwnerFood> catOwnerFoods = new List<CatOwnerFood>();
             for (int i = 0; i < catResp.Count(); i++)
             {
@@ -190,14 +184,81 @@ namespace ApiGateway.Services
                 if (catList[i].OwnerId != null)
                 {
                     var ownerID = catList[i].OwnerId ?? default(int);
-                    ownerResp = await _ownerClient.GetOwnerByIdAsync(ownerID);
+                    try
+                    {
+                        ownerResp = await _ownerClient.GetOwnerByIdAsync(ownerID);
+                    }
+                    catch (InternalException)
+                    {
+                        ownerResp = new Owner()
+                        {
+                            Id = ownerID,
+                            Name = "Degraded",
+                            Age = null,
+                            City = null
+                        };
+                    }
+                    catch (RequestException)
+                    {
+                        ownerResp = new Owner()
+                        {
+                            Id = ownerID,
+                            Name = "Degraded",
+                            Age = null,
+                            City = null
+                        };
+                    }
+                    catch (Exception)
+                    {
+                        ownerResp = new Owner()
+                        {
+                            Id = ownerID,
+                            Name = "Degraded",
+                            Age = null,
+                            City = null
+                        };
+                    }
+                    
                 }
                 
 
                 if (catList[i].FoodId != null)
                 {
                     var FoodID = catList[i].FoodId?? default(int);
-                    foodResp = await _foodClient.GetFoodByIdAsync(FoodID);
+                    try
+                    {
+                        foodResp = await _foodClient.GetFoodByIdAsync(FoodID);
+                    }
+                    catch (InternalException)
+                    {
+                        foodResp = new Food()
+                        {
+                            Id = FoodID,
+                            Name = "Degraded",
+                            Producer = null,
+                            Doze = null
+                        };
+                    }
+                    catch (RequestException)
+                    {
+                        foodResp = new Food()
+                        {
+                            Id = FoodID,
+                            Name = "Degraded",
+                            Producer = null,
+                            Doze = null
+                        };
+                    }
+                    catch (Exception)
+                    {
+                        foodResp = new Food()
+                        {
+                            Id = FoodID,
+                            Name = "Degraded",
+                            Producer = null,
+                            Doze = null
+                        };
+                    }
                 }
                 
                 catOwnerFoods.Add(new CatOwnerFood(catList[i], ownerResp, foodResp));
@@ -208,8 +269,26 @@ namespace ApiGateway.Services
 
         public async Task<OwnerCats> DeleteOwnerandHisCats(int id)
         {
-            var ownerResp = await _ownerClient.DeleteOwner(id);
-            var catResp = await _catClient.DeleteCatsByOwnerIdAsync(id);
+            Owner ownerResp = new Owner();
+            IEnumerable<Cat> catResp = new List<Cat>();
+
+            try
+            {
+                ownerResp = await _ownerClient.DeleteOwner(id);
+            }
+            catch
+            {
+                _ownerQueue.OwnerDeleteQueueTasks.Enqueue(id);
+            }
+
+            try
+            {
+                catResp = await _catClient.DeleteCatsByOwnerIdAsync(id);
+            }
+            catch
+            {
+                _catQueue.CatDeleteQueueTasks.Enqueue(id);
+            }
 
             var resp = new OwnerCats(catResp, ownerResp);
 

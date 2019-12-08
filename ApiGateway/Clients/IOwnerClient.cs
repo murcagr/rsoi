@@ -12,6 +12,7 @@ namespace ApiGateway.Clients
         Task<IEnumerable<Owner>> GetOwners();
         Task<Owner> AddOwner(Owner owner);
         Task<Owner> DeleteOwner(int id);
+        Task<bool> HealthCheck();
 
     }
 }
