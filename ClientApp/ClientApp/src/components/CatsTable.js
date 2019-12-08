@@ -79,10 +79,6 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
-
 const useStyles2 = makeStyles({
   root: {
     width: '100%',
@@ -95,14 +91,16 @@ const useStyles2 = makeStyles({
   },
 });
 
-export default function CustomTable(data) {
+export default function CustomTable(data, pagem) {
+  
   const rows = data.data
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const cats = data;
+  
+  console.log("page here: ", pagem.page)  
     
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - rowsPerPage);
    
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -118,19 +116,27 @@ export default function CustomTable(data) {
         <div className={classes.tableWrapper}>
         <Table className={classes.table} aria-label="custom pagination table">
           <TableBody>
-            {(rowsPerPage > 0
-              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : rows
-            ).map(row => (
-              <TableRow key={row.name}>
-                    <TableCell component="th" scope="row">
-                        {row.id}
-                    </TableCell>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.breed}</TableCell>
-                <TableCell align="right">{row.ownerId}  </TableCell>
+                      {(rowsPerPage > 0
+                          ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                          : rows
+                      ).map(row => (
+                          <TableRow key={row.id}>
+                        <TableCell component="th" scope="row">
+                            {row.cat.id}<br/>
+                            {row.cat.name}<br />
+                            {row.cat.breed}
+                        </TableCell>
+        
+            <TableCell align="right">{row.owner != null ? row.owner.id : "No owner"}<br />
+                {row.owner != null ? row.owner.name : ""}<br />
+                {row.owner != null ? row.owner.city : ""}<br />
+                {row.owner != null ? row.owner.age : ""}
+            </TableCell>
+            <TableCell align="right">{row.food != null ? row.food.id : "No food"}<br />
+                                  {row.food != null ? row.food.name : ""}<br />
+                                  {row.food != null ? row.food.producer : ""}<br />
+                                  {row.food != null ? row.food.doze : ""}<br />
+            </TableCell>
               </TableRow>
             ))}
 
@@ -143,7 +149,7 @@ export default function CustomTable(data) {
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                rowsPerPageOptions={[5]}
                 colSpan={3}
                 count={rows.length}
                 rowsPerPage={rowsPerPage}

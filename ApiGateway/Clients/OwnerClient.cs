@@ -32,9 +32,15 @@ namespace ApiGateway.Clients
 
         }
 
-        public Task<Owner> DeleteOwner(Owner owner)
+        public async Task<Owner> DeleteOwner(int id)
         {
-            throw new NotImplementedException();
+            var resp = await _httpClient.DeleteAsync($"{id}");
+            string content = await resp.Content.ReadAsStringAsync();
+
+            if (resp.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<Owner>(content);
+
+            return null;
         }
 
         public async Task<Owner> GetOwnerByIdAsync(int id)

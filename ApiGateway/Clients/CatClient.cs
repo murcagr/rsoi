@@ -40,6 +40,15 @@ namespace ApiGateway.Clients
             return cats;
         }
 
+        public async Task<IEnumerable<Cat>> GetCats(int size, int pageSize)
+        {
+            var resp = await _httpClient.GetAsync($"?page={size}&?pageSize={pageSize}");
+            string content = await resp.Content.ReadAsStringAsync();
+            var cats = JsonConvert.DeserializeObject<IEnumerable<Cat>>(content);
+
+            return cats;
+        }
+
         public async Task<bool> DeleteCat(int id)
         {
             var resp = await _httpClient.DeleteAsync($"{id}");
@@ -54,6 +63,18 @@ namespace ApiGateway.Clients
             var cats = JsonConvert.DeserializeObject<Cat>(content);
 
             return cats;
+        }
+        
+
+        public async Task<IEnumerable<Cat>> DeleteCatsByOwnerIdAsync(int ownerId)
+        {
+            var resp = await _httpClient.DeleteAsync($"owner/{ownerId}");
+            string content = await resp.Content.ReadAsStringAsync();
+
+            if (resp.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<IEnumerable<Cat>>(content);
+
+            return null;
         }
 
         public async Task<IEnumerable<Cat>> GetCatsByOwnerIdAsync(int ownerId)

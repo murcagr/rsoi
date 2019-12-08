@@ -105,6 +105,7 @@ namespace ApiGateway.Services
         {
             var resp = await _foodClient.GetFoodByIdAsync(id);
 
+
             return resp;
         }
 
@@ -145,6 +146,75 @@ namespace ApiGateway.Services
             return catownerfoodResp;
         }
 
+        public async Task<IEnumerable<CatOwnerFood>> GetCatOwnerFood(int size, int pageSize)
+        {
+            var catResp = await _catClient.GetCats(size, pageSize);
+            var catList = catResp.ToList();
+
+            //var ownerResp = await _ownerClient.GetOwners();
+            //var ownerList = ownerResp.ToList();
+            //var foodResp = await _foodClient.GetFoods();
+            //var foodList = foodResp.ToList();
+
+            //List<OwnerCat> ownerCats = new List<OwnerCat>(); 
+
+            //for (int i = 0; i < catResp.Count(); i++)
+            //{
+            //    for (int j = 0; j < ownerResp.Count(); j++)
+            //    {
+            //        if (catList[i].OwnerId == ownerList[j].Id)
+            //        {
+            //            ownerCats.Add(new OwnerCat(catList[i], ownerList[j]));
+            //        }
+            //    }
+            //}
+
+            //List<CatOwnerFood> catOwnerFoods = new List<CatOwnerFood>();
+            //for (int i = 0; i < catResp.Count(); i++)
+            //{
+            //    for (int j = 0; j < foodResp.Count(); j++)
+            //    {
+            //        if (catList[i].FoodId == foodList[j].Id)
+            //        {
+            //            ownerCats.Add(new CatOwnerFood(o, ownerList[j]));
+            //        }
+            //    }
+            //}
+
+            List<CatOwnerFood> catOwnerFoods = new List<CatOwnerFood>();
+            for (int i = 0; i < catResp.Count(); i++)
+            {
+                Owner ownerResp = null;
+                Food foodResp = null;
+
+                if (catList[i].OwnerId != null)
+                {
+                    var ownerID = catList[i].OwnerId ?? default(int);
+                    ownerResp = await _ownerClient.GetOwnerByIdAsync(ownerID);
+                }
+                
+
+                if (catList[i].FoodId != null)
+                {
+                    var FoodID = catList[i].FoodId?? default(int);
+                    foodResp = await _foodClient.GetFoodByIdAsync(FoodID);
+                }
+                
+                catOwnerFoods.Add(new CatOwnerFood(catList[i], ownerResp, foodResp));
+            }
+
+            return catOwnerFoods;
+        }
+
+        public async Task<OwnerCats> DeleteOwnerandHisCats(int id)
+        {
+            var ownerResp = await _ownerClient.DeleteOwner(id);
+            var catResp = await _catClient.DeleteCatsByOwnerIdAsync(id);
+
+            var resp = new OwnerCats(catResp, ownerResp);
+
+            return resp;
+        }
 
         public async Task<Owner> AttachCatToOwner(int id)
         {

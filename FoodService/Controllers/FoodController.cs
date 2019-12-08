@@ -29,6 +29,15 @@ namespace FoodService.Controllers
             return Ok(foods);
         }
 
+        // GET api/foods
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var foods = await _foodService.GetFoodByIdAsync(id);
+
+            return Ok(foods);
+        }
+
         // POST api/foods
         [HttpPost]
         public async Task<IActionResult> AddFood([FromBody] Food food)
@@ -61,6 +70,12 @@ namespace FoodService.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
+        }
+
+        [HttpGet("status")]
+        public async Task<IActionResult> HealthCheck()
+        {
+            return Ok();
         }
     }
 }

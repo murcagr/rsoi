@@ -33,6 +33,22 @@ namespace CatService.Services
 
         }
 
+
+        public async Task<IEnumerable<Cat>> DeleteAllCatsByOwner(int id)
+        {
+
+            var cat = _AppDBContext.Cats.Where(c => c.OwnerId == id).ToList();
+            if (cat != null)
+            {
+                _AppDBContext.Cats.RemoveRange(cat);
+                await _AppDBContext.SaveChangesAsync();
+                return cat;
+            }
+
+            return null;
+            //return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+        }
+
         public async Task<Cat> DeleteCatById(int id)
         {
 

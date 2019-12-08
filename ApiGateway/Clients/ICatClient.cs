@@ -10,7 +10,9 @@ namespace ApiGateway.Clients
         Task<IEnumerable<Cat>> GetCatsByOwnerIdAsync(int ownerId);
         Task<Cat> GetCatByIdAsync(int id);
         Task<IEnumerable<Cat>> GetCats();
+        Task<IEnumerable<Cat>> GetCats(int size, int pageSize);
         Task<Cat> AddNewCat(Cat cat);
+        Task<IEnumerable<Cat>> DeleteCatsByOwnerIdAsync(int ownerId);
         Task<bool> DeleteCat(int ownerId);
 
 

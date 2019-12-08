@@ -11,5 +11,6 @@ namespace CatService.Services
         Task<Cat> GetCatByIdAsync(int id);
         Task<IEnumerable<Cat>> GetCatByOwnerIdAsync(int ownerId);
         Task<IEnumerable<Cat>> GetCatsAsync(int page, int pageSize);
+        Task<IEnumerable<Cat>> DeleteAllCatsByOwner(int id);
     }
 }

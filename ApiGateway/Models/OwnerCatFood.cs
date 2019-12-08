@@ -19,5 +19,12 @@ namespace ApiGateway.Models
             Owner = owner;
             Food = food;
         }
+
+        public CatOwnerFood(OwnerCat ownerCat, Food food)
+        {
+            Cat = ownerCat.Cat;
+            Owner = ownerCat.Owner;
+            Food = food;
+        }
     }
 }

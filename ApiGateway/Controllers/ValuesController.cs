@@ -146,11 +146,29 @@ namespace ApiGateway.Controllers
             return Ok(_cat);
         }
 
+        
+        [HttpDelete("ownercats/{id}")]
+        public async Task<IActionResult> DeleteOwnerandHisCats(int id)
+        {
+            var _cat = await _gwService.DeleteOwnerandHisCats(id);
+
+            return Ok(_cat);
+        }
+
         [HttpPost("ownercatfood")]
         public async Task<IActionResult> AddFoodOwnerCat([FromBody] CatOwnerFood cof)
         {
 
             var _cat = await _gwService.AddFoodOwnerCat(cof);
+
+            return Ok(_cat);
+        }
+
+        [HttpGet("ownercatfood")]
+        public async Task<IActionResult> GetCatOwnerFood([FromQuery] int page, int pageSize)
+        {
+
+            var _cat = await _gwService.GetCatOwnerFood(page, pageSize);
 
             return Ok(_cat);
         }

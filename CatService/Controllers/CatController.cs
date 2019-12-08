@@ -52,6 +52,17 @@ namespace CatService.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest, "No such cat!");
         }
 
+        [HttpDelete("owner/{ownerId}")]
+        public async Task<IActionResult> DeleteAllCatsByOwner(int ownerId)
+        {
+            var cats = await _catService.DeleteAllCatsByOwner(ownerId);
+
+            if (cats != null)
+                return Ok(cats);
+            else
+                return StatusCode(StatusCodes.Status400BadRequest, "No such cat!");
+        }
+
         // POST api/cats
         [HttpPost]
         public async Task<IActionResult> AddCat([FromBody] Cat cat)
@@ -84,6 +95,12 @@ namespace CatService.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
+        }
+
+        [HttpGet("status")]
+        public async Task<IActionResult> HealthCheck()
+        {
+            return Ok();
         }
     }
 }
