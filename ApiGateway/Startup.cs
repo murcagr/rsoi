@@ -19,7 +19,6 @@ using Microsoft.AspNetCore.Mvc;
 using ApiGateway.Queue;
 using ApiGateway.Settings;
 using ApiGateway.Models;
-using ApiGateway.Authentication;
 using static ApiGateway.Settings.AuthService;
 using Microsoft.IdentityModel.Logging;
 

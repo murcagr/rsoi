@@ -1,0 +1,43 @@
+stages:
+  - build
+  - test
+  - deploy
+
+image: microsoft/dotnet:latest
+
+before_script:
+  - apt-get update && apt-get install sshpass
+variables: 
+  BUILD_ARTIFACT_PATH: "$CI_PROJECT_DIR/app"
+  
+build_job:
+  stage: build
+  script:
+    - echo $CI_PROJECT_DIR
+    - cd $CI_PROJECT_DIR
+    - dotnet publish -c Release -o $BUILD_ARTIFACT_PATH $CI_PROJECT_DIR/Rsoi1/Rsoi1.csproj
+  artifacts:
+    paths:
+      - $BUILD_ARTIFACT_PATH
+
+
+test_job:
+  stage: build
+  script:
+    - cd $CI_PROJECT_DIR/RsoiTests
+    - dotnet test
+
+deploy_staging:
+  image: python:3.6
+  stage: deploy
+  variables:
+  dependencies:
+    - build_job
+  script:
+    - apt-get install zip
+    - pip3 install awscli
+    - mv Deploy/* .
+    - zip -j app.zip app/*
+    - zip application-${CI_PIPELINE_IID}.zip app.zip aws-windows-deployment-manifest.json
+    - chmod 777 deploy.sh 
+    - ./deploy.sh elasticbeanstalk-us-west-2-006653641282 application-${CI_PIPELINE_IID}.zip v0.1-${CI_PIPELINE_IID} gullfoss-dev

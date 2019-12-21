@@ -19,6 +19,6 @@ namespace OwnerService
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseUrls("https://*:5051").UseStartup<Startup>();
+                .UseStartup<Startup>();
     }
 }

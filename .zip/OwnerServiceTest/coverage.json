@@ -1,0 +1,419 @@
+{
+  "OwnerService.dll": {
+    "C:\\Users\\Remini\\source\\Rsoi_1\\Rsoi2\\OwnerService\\Program.cs": {
+      "OwnerService.Program": {
+        "System.Void OwnerService.Program::Main(System.String[])": {
+          "Lines": {
+            "16": 0,
+            "17": 0,
+            "18": 0
+          },
+          "Branches": []
+        },
+        "Microsoft.AspNetCore.Hosting.IWebHostBuilder OwnerService.Program::CreateWebHostBuilder(System.String[])": {
+          "Lines": {
+            "21": 0,
+            "22": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Remini\\source\\Rsoi_1\\Rsoi2\\OwnerService\\Startup.cs": {
+      "OwnerService.Startup": {
+        "Microsoft.Extensions.Configuration.IConfiguration OwnerService.Startup::get_Configuration()": {
+          "Lines": {
+            "26": 0
+          },
+          "Branches": []
+        },
+        "System.Void OwnerService.Startup::ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)": {
+          "Lines": {
+            "30": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "34": 0,
+            "35": 0,
+            "36": 0,
+            "37": 0,
+            "38": 0,
+            "39": 0,
+            "40": 0
+          },
+          "Branches": [
+            {
+              "Line": 34,
+              "Offset": 49,
+              "EndOffset": 51,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 34,
+              "Offset": 49,
+              "EndOffset": 74,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void OwnerService.Startup::Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)": {
+          "Lines": {
+            "44": 0,
+            "45": 0,
+            "46": 0,
+            "47": 0,
+            "48": 0,
+            "50": 0,
+            "52": 0,
+            "53": 0,
+            "55": 0,
+            "56": 0,
+            "57": 0
+          },
+          "Branches": [
+            {
+              "Line": 45,
+              "Offset": 9,
+              "EndOffset": 11,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 45,
+              "Offset": 9,
+              "EndOffset": 22,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        },
+        "System.Void OwnerService.Startup::.ctor(Microsoft.Extensions.Configuration.IConfiguration)": {
+          "Lines": {
+            "21": 0,
+            "22": 0,
+            "23": 0,
+            "24": 0
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Remini\\source\\Rsoi_1\\Rsoi2\\OwnerService\\Service\\OwnerServ.cs": {
+      "OwnerService.Services.OwnerServ": {
+        "System.Void OwnerService.Services.OwnerServ::.ctor(OwnerService.Model.AppDBContext)": {
+          "Lines": {
+            "16": 3,
+            "17": 3,
+            "18": 3,
+            "19": 3
+          },
+          "Branches": []
+        }
+      },
+      "OwnerService.Services.OwnerServ/<AddOwner>d__3": {
+        "System.Void OwnerService.Services.OwnerServ/<AddOwner>d__3::MoveNext()": {
+          "Lines": {
+            "22": 0,
+            "25": 0,
+            "26": 0,
+            "28": 0,
+            "30": 0
+          },
+          "Branches": [
+            {
+              "Line": 26,
+              "Offset": 81,
+              "EndOffset": 83,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 26,
+              "Offset": 81,
+              "EndOffset": 148,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "OwnerService.Services.OwnerServ/<GetOwners>d__4": {
+        "System.Void OwnerService.Services.OwnerServ/<GetOwners>d__4::MoveNext()": {
+          "Lines": {
+            "33": 1,
+            "34": 1,
+            "36": 1,
+            "37": 1
+          },
+          "Branches": []
+        }
+      },
+      "OwnerService.Services.OwnerServ/<DeleteOwnerByID>d__5": {
+        "System.Void OwnerService.Services.OwnerServ/<DeleteOwnerByID>d__5::MoveNext()": {
+          "Lines": {
+            "42": 1,
+            "44": 1,
+            "45": 1,
+            "46": 1,
+            "47": 1,
+            "48": 1,
+            "49": 1,
+            "52": 0,
+            "54": 1
+          },
+          "Branches": [
+            {
+              "Line": 45,
+              "Offset": 182,
+              "EndOffset": 187,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 48,
+              "Offset": 256,
+              "EndOffset": 325,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "OwnerService.Services.OwnerServ/<GetOwnerByIdAsync>d__6": {
+        "System.Void OwnerService.Services.OwnerServ/<GetOwnerByIdAsync>d__6::MoveNext()": {
+          "Lines": {
+            "57": 1,
+            "58": 1,
+            "60": 1,
+            "61": 1
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Remini\\source\\Rsoi_1\\Rsoi2\\OwnerService\\Model\\DB\\AppDBContext.cs": {
+      "OwnerService.Model.AppDBContext": {
+        "Microsoft.EntityFrameworkCore.DbSet`1<OwnerService.Model.Owner> OwnerService.Model.AppDBContext::get_Owners()": {
+          "Lines": {
+            "12": 10
+          },
+          "Branches": []
+        },
+        "System.Void OwnerService.Model.AppDBContext::OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)": {
+          "Lines": {
+            "21": 0,
+            "22": 0,
+            "24": 0,
+            "26": 0,
+            "28": 0,
+            "29": 0
+          },
+          "Branches": []
+        },
+        "System.Void OwnerService.Model.AppDBContext::.ctor(Microsoft.EntityFrameworkCore.DbContextOptions`1<OwnerService.Model.AppDBContext>)": {
+          "Lines": {
+            "15": 3,
+            "16": 3,
+            "18": 3
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Remini\\source\\Rsoi_1\\Rsoi2\\OwnerService\\Model\\DB\\Owner.cs": {
+      "OwnerService.Model.Owner": {
+        "System.Int32 OwnerService.Model.Owner::get_Id()": {
+          "Lines": {
+            "10": 37
+          },
+          "Branches": []
+        },
+        "System.String OwnerService.Model.Owner::get_Name()": {
+          "Lines": {
+            "11": 33
+          },
+          "Branches": []
+        },
+        "System.Int32 OwnerService.Model.Owner::get_Age()": {
+          "Lines": {
+            "12": 33
+          },
+          "Branches": []
+        },
+        "System.String OwnerService.Model.Owner::get_City()": {
+          "Lines": {
+            "13": 33
+          },
+          "Branches": []
+        }
+      }
+    },
+    "C:\\Users\\Remini\\source\\Rsoi_1\\Rsoi2\\OwnerService\\Controllers\\OwnerController.cs": {
+      "OwnerService.Controllers.OwnerController": {
+        "System.Void OwnerService.Controllers.OwnerController::.ctor(OwnerService.Services.IOwnerServ)": {
+          "Lines": {
+            "18": 3,
+            "19": 3,
+            "20": 3,
+            "21": 3
+          },
+          "Branches": []
+        }
+      },
+      "OwnerService.Controllers.OwnerController/<GetOwners>d__2": {
+        "System.Void OwnerService.Controllers.OwnerController/<GetOwners>d__2::MoveNext()": {
+          "Lines": {
+            "25": 0,
+            "27": 0,
+            "28": 0,
+            "29": 0,
+            "31": 0,
+            "32": 0,
+            "33": 0,
+            "35": 0
+          },
+          "Branches": [
+            {
+              "Line": 25,
+              "Offset": 17,
+              "EndOffset": 23,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 0
+            },
+            {
+              "Line": 28,
+              "Offset": 53,
+              "EndOffset": 55,
+              "Path": 0,
+              "Ordinal": 2,
+              "Hits": 0
+            },
+            {
+              "Line": 25,
+              "Offset": 17,
+              "EndOffset": 94,
+              "Path": 1,
+              "Ordinal": 1,
+              "Hits": 0
+            },
+            {
+              "Line": 28,
+              "Offset": 53,
+              "EndOffset": 122,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 0
+            }
+          ]
+        }
+      },
+      "OwnerService.Controllers.OwnerController/<GetOwnerByIdAsync>d__3": {
+        "System.Void OwnerService.Controllers.OwnerController/<GetOwnerByIdAsync>d__3::MoveNext()": {
+          "Lines": {
+            "41": 1,
+            "43": 1,
+            "44": 1,
+            "45": 1,
+            "47": 0,
+            "48": 0,
+            "49": 0,
+            "51": 1
+          },
+          "Branches": [
+            {
+              "Line": 41,
+              "Offset": 17,
+              "EndOffset": 23,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 44,
+              "Offset": 59,
+              "EndOffset": 128,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "OwnerService.Controllers.OwnerController/<AddOwner>d__4": {
+        "System.Void OwnerService.Controllers.OwnerController/<AddOwner>d__4::MoveNext()": {
+          "Lines": {
+            "55": 1,
+            "57": 1,
+            "58": 1,
+            "60": 1,
+            "62": 0,
+            "63": 0,
+            "64": 0,
+            "67": 1
+          },
+          "Branches": [
+            {
+              "Line": 55,
+              "Offset": 17,
+              "EndOffset": 23,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 58,
+              "Offset": 59,
+              "EndOffset": 128,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            }
+          ]
+        }
+      },
+      "OwnerService.Controllers.OwnerController/<DeleteOwner>d__5": {
+        "System.Void OwnerService.Controllers.OwnerController/<DeleteOwner>d__5::MoveNext()": {
+          "Lines": {
+            "71": 1,
+            "73": 1,
+            "74": 1,
+            "76": 1,
+            "78": 0,
+            "79": 0,
+            "80": 0,
+            "83": 1
+          },
+          "Branches": [
+            {
+              "Line": 71,
+              "Offset": 17,
+              "EndOffset": 23,
+              "Path": 0,
+              "Ordinal": 0,
+              "Hits": 1
+            },
+            {
+              "Line": 74,
+              "Offset": 59,
+              "EndOffset": 128,
+              "Path": 1,
+              "Ordinal": 3,
+              "Hits": 1
+            }
+          ]
+        }
+      }
+    }
+  }
+}

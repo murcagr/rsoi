@@ -19,7 +19,6 @@ namespace ApiGateway
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseUrls("https://*:5049")
                 .UseStartup<Startup>();
     }
 }

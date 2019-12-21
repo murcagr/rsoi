@@ -14,7 +14,7 @@ using CatService.Storage;
 namespace CatService.Controllers
 {
     [Route("api/cats")]
-    [Authorize(Policy = "Gateway")]
+    //[Authorize(Policy = "Gateway")]
     [ApiController]
     public class CatController : ControllerBase, ICatController
     {
@@ -35,6 +35,7 @@ namespace CatService.Controllers
 
             return Ok(cats);
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCatById(int id)

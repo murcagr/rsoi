@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  cat-service:
+    build:
+      context: ./CatService
+      dockerfile: Dockerfile
+    ports:
+      - "5052:80"
+  owner-service:
+    build:
+      context: ./OwnerService
+      dockerfile: Dockerfile
+    ports:
+      - "5051:80"
+  food-service:
+    build:
+      context: ./FoodService
+      dockerfile: Dockerfile
+    ports:
+      - "5053:80"
+  user-api:
+    build:
+      context: ./User.Api
+      dockerfile: Dockerfile
+    ports:
+      - "5010:80"
+  api-gateway:
+    build:
+      context: ./ApiGateway
+      dockerfile: Dockerfile
+    ports:
+      - "5049:80"
+  web:
+    build:
+      context: ./ClientApp
+      dockerfile: Dockerfile
+    ports:
+      - "5100:80"
