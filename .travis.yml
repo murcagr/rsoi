@@ -11,7 +11,8 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
   
 script:
-  - tree
+  - pwd
+  - ls -latr
   - docker-compose build
   - docker images
   
