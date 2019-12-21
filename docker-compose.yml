@@ -21,7 +21,7 @@ services:
       - "5053:80"
   user-api:
     build:
-      context: ./User.Api
+      context: ./User.API
       dockerfile: Dockerfile
     ports:
       - "5010:80"
