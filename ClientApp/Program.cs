@@ -18,7 +18,7 @@ namespace ClientApp
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args).UseUrls("https://localhost:5100")
+            WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
     }
 }

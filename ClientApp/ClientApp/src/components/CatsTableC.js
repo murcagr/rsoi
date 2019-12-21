@@ -141,7 +141,7 @@ class CatsTable extends Component {
                         <TableBody>
                             {(this.state.rowsPerPage > 0
                                 ? this.props.cots.slice(0, this.state.rowsPerPage)
-                                : rows
+                                : this.props.cots
                             ).map(row => (
                                 <TableRow key={row.id}>
                                     <TableCell component="th" scope="row">

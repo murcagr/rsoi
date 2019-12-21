@@ -3,7 +3,6 @@ import { actionCreators as catsActions } from '../reducers/Cats';
 import { actionCreators as ownersActions } from '../reducers/Owners';
 import { actionCreators as foodsActions } from '../reducers/Foods';
 import { actionCreators as cotsActions } from '../reducers/COF';
-import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ReactPaginate from 'react-paginate';
