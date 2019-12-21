@@ -2,36 +2,42 @@ version: '3.7'
 
 services:
   cat-service:
+    image: murcagr/cat-service
     build:
       context: ./CatService
       dockerfile: Dockerfile
     ports:
       - "5052:80"
   owner-service:
+    image: murcagr/owner-service
     build:
       context: ./OwnerService
       dockerfile: Dockerfile
     ports:
       - "5051:80"
   food-service:
+    image: murcagr/food-service
     build:
       context: ./FoodService
       dockerfile: Dockerfile
     ports:
       - "5053:80"
   user-api:
+    image: murcagr/user-api
     build:
       context: ./User.API
       dockerfile: Dockerfile
     ports:
       - "5010:80"
   api-gateway:
+    image: murcagr/api-gateway
     build:
       context: ./ApiGateway
       dockerfile: Dockerfile
     ports:
       - "5049:80"
   web:
+    image: murcagr/web
     build:
       context: ./ClientApp
       dockerfile: Dockerfile
