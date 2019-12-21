@@ -17,6 +17,11 @@ using Polly;
 using Polly.Extensions.Http;
 using Microsoft.AspNetCore.Mvc;
 using ApiGateway.Queue;
+using ApiGateway.Settings;
+using ApiGateway.Models;
+using ApiGateway.Authentication;
+using static ApiGateway.Settings.AuthService;
+using Microsoft.IdentityModel.Logging;
 
 namespace ApiGateway
 {
@@ -35,7 +40,29 @@ namespace ApiGateway
             var connectionsSection = Configuration.GetSection("Connections");
             
             services.Configure<Connections>(connectionsSection);
-            
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "Bearer";
+                options.DefaultChallengeScheme = "Bearer";
+            })
+                 .AddIdentityServerAuthentication(options =>
+                 {
+                     options.Authority = "http://localhost:5010/";
+                     options.ApiName = "api1";
+                     options.RequireHttpsMetadata = false;
+                     options.JwtValidationClockSkew = TimeSpan.Zero;
+                 });
+
+            services.AddAuthorization(options =>
+            {
+                //options.AddPolicy("User", policy => policy.RequireClaim());
+            });
+
+            services.AddSingleton<AuthToService>();
+            services.AddSingleton(new CatQueue());
+            services.AddSingleton(new OwnerQueue());
+            services.AddHostedService<QueueService>();
+
             services.AddHttpClient<ICatClient, CatClient>(client =>
             {
                 client.BaseAddress = new Uri(connectionsSection.Get<Connections>().CatsAPIUrl);
@@ -65,10 +92,8 @@ namespace ApiGateway
                        .AllowAnyHeader();
             }));
 
+            
 
-            services.AddSingleton(new CatQueue());
-            services.AddSingleton(new OwnerQueue());
-            services.AddHostedService<QueueService>();
 
             services.AddTransient<GwService>();
 
@@ -88,7 +113,7 @@ namespace ApiGateway
                 app.UseHsts();
             }
             app.UseCors("MyPolicy");
-            app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
         }
 

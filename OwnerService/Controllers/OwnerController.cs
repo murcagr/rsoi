@@ -2,22 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiGateway.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OwnerService.Storage;
 using OwnerService.Model;
+using OwnerService.Model.DB;
 using OwnerService.Services;
 
 namespace OwnerService.Controllers
 {
     [Route("api/owners")]
+    [Authorize(Policy = "Gateway")]
     [ApiController]
     public class OwnerController : ControllerBase, IOwnerController
     {
         private IOwnerServ _ownerService;
+        private readonly TokenStorage _tokenStorage;
 
-        public OwnerController(IOwnerServ ownerService)
+
+        public OwnerController(IOwnerServ ownerService, TokenStorage tokenStorage)
         {
             _ownerService = ownerService;
+            _tokenStorage = tokenStorage;
         }
 
         [HttpGet]
@@ -81,7 +89,23 @@ namespace OwnerService.Controllers
             }
         }
 
+        [HttpPost("auth")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AuthOwner([FromBody] AuthModel auth)
+        {
+            if (auth.AppId == 1 && auth.AppSecret == "ownerApp")
+            {
+                int expiration = 3600;
+                var token = $"{(Int32)(DateTime.UtcNow.AddSeconds(expiration).Subtract(new DateTime(1970, 1, 1))).TotalSeconds}.{Guid.NewGuid().ToString()}";
+                _tokenStorage.activeTokens.Add(token);
+                return Ok(new TokenM() { Token = token, Exp_in = expiration });
+            }
+            else
+                return StatusCode(StatusCodes.Status401Unauthorized);
+        }
+
         [HttpGet("status")]
+        [AllowAnonymous]
         public async Task<IActionResult> HealthCheck()
         {
             return Ok();

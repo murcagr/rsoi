@@ -1,8 +1,8 @@
     import configureStore from '../store/configureStore.js';
 
-const updateFoodsType = 'UPDATE_CATS';
+const updateFoodsType = 'UPDATE_FOODS';
 const decrementCountType = 'DECREMENT_COUNT';
-const AddFoodType = 'ADD_CAT';
+const AddFoodType = 'ADD_FOOD';
 const initialState = { foods: [] };
 
 export const actionCreators = {

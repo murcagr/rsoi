@@ -11,12 +11,13 @@ namespace CatService.Model
         [Key]
         public int Id { get; set; }
         
-        public string Name { get; set; }
 
+        public string Name { get; set; }
+        
         public string Breed { get; set; }
 
         public int? OwnerId { get; set; }
-
+        [Required]
         public int? FoodId { get; set; }
 
     }

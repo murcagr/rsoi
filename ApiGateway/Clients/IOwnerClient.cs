@@ -13,6 +13,6 @@ namespace ApiGateway.Clients
         Task<Owner> AddOwner(Owner owner);
         Task<Owner> DeleteOwner(int id);
         Task<bool> HealthCheck();
-
+        Task<bool> GetTokenCorrectness(string token);
     }
 }

@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using CatService.Model;
 using CatService.Services;
+using CatService.Authentication;
+using CatService.Storage;
 
 namespace CatService
 {
@@ -28,15 +30,17 @@ namespace CatService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ICatServ, CatServ>();
             services.AddDbContext<AppDBContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            services.AddAuthorization(options =>
             {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
+                options.AddPolicy("Gateway", policy => policy.RequireClaim("Gateway"));
+            });
+            services.AddAuthentication("CatAuth").AddCatAuth(options => { });
+            services.AddSingleton(new TokenStorage());
+
+
+            services.AddTransient<ICatServ, CatServ>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,8 +56,8 @@ namespace CatService
                 app.UseHsts();
             }
 
-            app.UseCors("MyPolicy");
-            app.UseHttpsRedirection();
+            app.UseAuthentication();
+
             app.UseMvc();
 
         }

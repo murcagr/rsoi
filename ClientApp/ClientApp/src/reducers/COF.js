@@ -7,7 +7,14 @@ const initialState = { cots: [] };
 
 export const actionCreators = {
     cotsRequest: (page) => (dispatch) => {
-        fetch('https://localhost:5049/api/gw/ownercatfood/?page=' + page)
+        fetch('https://localhost:5049/api/gw/ownercatfood/?page=' + page, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `${sessionStorage.getItem("scheme")} ${sessionStorage.getItem("auth_token")}`
+            }
+        })
             .then(res => res.json())
             .then((data) => {
                 dispatch(actionCreators.updateCots(data));
@@ -23,13 +30,14 @@ export const actionCreators = {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
-
+                'Content-Type': 'application/json',
+                'Authorization': `${sessionStorage.getItem("scheme")} ${sessionStorage.getItem("auth_token")}`
             },
             body: JSON.stringify({
                 cat: {
                     name: catOwnerFood.nameCat,
-                    breed: catOwnerFood.breed
+                    breed: catOwnerFood.breed,
+                    foodId: catOwnerFood.foodId
                 },
                 owner: {
                     name: catOwnerFood.nameOwner,
@@ -46,8 +54,8 @@ export const actionCreators = {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
-
+                'Content-Type': 'application/json',
+                'Authorization': `${sessionStorage.getItem("scheme")} ${sessionStorage.getItem("auth_token")}`
             },
 
         })

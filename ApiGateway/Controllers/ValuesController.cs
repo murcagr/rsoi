@@ -6,17 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 using ApiGateway.Services;
 using ApiGateway.Models;
 using Polly.CircuitBreaker;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using ApiGateway.Exceptions;
-
+using IdentityModel.Client;
 namespace ApiGateway.Controllers
 {
     [Route("api/gw")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
         private GwService _gwService;
 
+        
         public ValuesController(GwService gwService)
         {
             _gwService = gwService;

@@ -35,12 +35,12 @@ namespace ApiGateway.Services
             {
                 await Task.Delay(TIME_DELAY);
 
-                Console.WriteLine("Execute TryAttackMonster!");
-                await TryAttackMonster();
+                Console.WriteLine("Trying to reach out servers and execute task!");
+                await TryDelete();
             }
         }
 
-        private async Task TryAttackMonster()
+        private async Task TryDelete()
         {
             try
             {
@@ -70,7 +70,7 @@ namespace ApiGateway.Services
                 return;
             }
 
-            while (_ownerQueue.OwnerDeleteQueueTasks.Count != 0 && _catQueue.CatDeleteQueueTasks.Count != 0)
+            while (_ownerQueue.OwnerDeleteQueueTasks.Count != 0 || _catQueue.CatDeleteQueueTasks.Count != 0)
             {
                 
                 if (_ownerQueue.OwnerDeleteQueueTasks.TryDequeue(out var ownerId))

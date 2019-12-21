@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using FoodService.Model;
 using FoodService.Services;
+using FoodService.Storage;
+using FoodService.Authentication;
 
 namespace FoodService
 {
@@ -28,9 +30,17 @@ namespace FoodService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IFoodServ, FoodServ>();
+            
             services.AddDbContext<AppDBContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Gateway", policy => policy.RequireClaim("Gateway"));
+            });
+            services.AddAuthentication("FoodAuth").AddFoodAuth(options => { });
+            services.AddSingleton(new TokenStorage());
+            services.AddTransient<IFoodServ, FoodServ>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,13 +50,9 @@ namespace FoodService
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
 
-            app.UseHttpsRedirection();
+            app.UseAuthentication();
+
             app.UseMvc();
         }
     }

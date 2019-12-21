@@ -49,7 +49,7 @@ function useStyles2() {
 class CatsTable extends Component {
     constructor(props) {
         super(props);
-
+        console.log(this.props)
         this.state = {
             cats: [],
             foods: [],
@@ -62,8 +62,8 @@ class CatsTable extends Component {
         
     };
 
-    componentDidMount() {
-        this.props.actions.cotsRequest(this.state.page);
+    async componentDidMount() {
+        await this.props.actions.cotsRequest(this.state.page);
     }
 
     TablePaginationActions(props) {
@@ -119,7 +119,8 @@ class CatsTable extends Component {
 }
 
     handleChangePage = (event, newPage) => {
-        this.props.actions.cotsRequest(this.state.page)
+
+        setTimeout(this.props.actions.cotsRequest, 2000, this.state.page);
         this.setState({ page: newPage });
         console.log(this.state.page)
     };
@@ -127,8 +128,10 @@ class CatsTable extends Component {
     render() {
         
         const classes = useStyles2();
-        
 
+        if (this.props.cots == undefined) {
+            return <div/>
+        }
         const emptyRows = this.state.rowsPerPage -  this.props.cots.length;
 
         return (

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CatService.Model;
+using CatService.Model.DB;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatService.Controllers
@@ -12,6 +13,8 @@ namespace CatService.Controllers
         Task<IActionResult> GetCatById(int id);
         Task<IActionResult> GetCatsByOwnerIdAsync(int ownerId);
         Task<IActionResult> HealthCheck();
-        
+        Task<IActionResult> AuthCat([FromBody] AuthModel auth);
+
+
     }
 }

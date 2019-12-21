@@ -6,18 +6,25 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using FoodService.Model;
 using FoodService.Services;
+using ApiGateway.Models;
+using FoodService.Model.DB;
+using Microsoft.AspNetCore.Authorization;
+using FoodService.Storage;
 
 namespace FoodService.Controllers
 {
     [Route("api/foods")]
+    [Authorize(Policy = "Gateway")]
     [ApiController]
     public class FoodController : ControllerBase
     {
         private IFoodServ _foodService;
+        private TokenStorage _tokenStorage;
 
-        public FoodController(IFoodServ foodService)
+        public FoodController(IFoodServ foodService, TokenStorage tokenStorage)
         {
             _foodService = foodService;
+            _tokenStorage = tokenStorage;
         }
 
         // GET api/foods
@@ -72,7 +79,24 @@ namespace FoodService.Controllers
             }
         }
 
+
+        [HttpPost("auth")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AuthOwner([FromBody] AuthModel auth)
+        {
+            if (auth.AppId == 3 && auth.AppSecret == "foodApp")
+            {
+                int expiration = 3600;
+                var token = $"{(Int32)(DateTime.UtcNow.AddSeconds(expiration).Subtract(new DateTime(1970, 1, 1))).TotalSeconds}.{Guid.NewGuid().ToString()}";
+                _tokenStorage.activeTokens.Add(token);
+                return Ok(new TokenM() { Token = token, Exp_in = expiration });
+            }
+            else
+                return StatusCode(StatusCodes.Status401Unauthorized);
+        }
+
         [HttpGet("status")]
+        [AllowAnonymous]
         public async Task<IActionResult> HealthCheck()
         {
             return Ok();

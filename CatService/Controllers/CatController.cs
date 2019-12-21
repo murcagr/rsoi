@@ -6,18 +6,25 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CatService.Model;
 using CatService.Services;
+using Microsoft.AspNetCore.Authorization;
+using CatService.Model.DB;
+using ApiGateway.Models;
+using CatService.Storage;
 
 namespace CatService.Controllers
 {
     [Route("api/cats")]
+    [Authorize(Policy = "Gateway")]
     [ApiController]
     public class CatController : ControllerBase, ICatController
     {
         private ICatServ _catService;
+        private TokenStorage _tokenStorage;
 
-        public CatController(ICatServ catService)
+        public CatController(ICatServ catService, TokenStorage tokenStorage)
         {
             _catService = catService;
+            _tokenStorage = tokenStorage;
         }
 
         // GET api/cats
@@ -97,7 +104,24 @@ namespace CatService.Controllers
             }
         }
 
+        [HttpPost("auth")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AuthCat([FromBody] AuthModel auth)
+        {
+            if (auth.AppId == 2 && auth.AppSecret == "catApp")
+            {
+                int expiration = 3600;
+                var token = $"{(Int32)(DateTime.UtcNow.AddSeconds(expiration).Subtract(new DateTime(1970, 1, 1))).TotalSeconds}.{Guid.NewGuid().ToString()}";
+                _tokenStorage.activeTokens.Add(token);
+                return Ok(new TokenM() { Token = token, Exp_in = expiration });
+            }
+            else
+                return StatusCode(StatusCodes.Status401Unauthorized);
+        }
+
+
         [HttpGet("status")]
+        [AllowAnonymous]
         public async Task<IActionResult> HealthCheck()
         {
             return Ok();
