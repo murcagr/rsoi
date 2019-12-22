@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web-service
+  name: cat-service
 spec:
   selector:
-    app: web
+    app: cat
   ports:
     - protocol: TCP
-      port: 5100
+      port: 5052
       targetPort: 80
 
 ---
@@ -15,21 +15,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
+  name: cat
   labels:
-    app: web
+    app: cat
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web
+      app: cat
   template:
     metadata:
       labels:
-        app: web
+        app: cat
     spec:
       containers:
-      - name: web
-        image: murcagr/web:latest
+      - name: cat
+        image: murcagr/cat-service:latest
         ports:
         - containerPort: 80

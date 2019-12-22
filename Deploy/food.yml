@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web-service
+  name: food-service
 spec:
   selector:
-    app: web
+    app: food
   ports:
     - protocol: TCP
-      port: 5100
+      port: 5053
       targetPort: 80
 
 ---
@@ -15,21 +15,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
+  name: food
   labels:
-    app: web
+    app: food
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web
+      app: food
   template:
     metadata:
       labels:
-        app: web
+        app: food
     spec:
       containers:
-      - name: web
-        image: murcagr/web:latest
+      - name: food
+        image: murcagr/food-service:latest
         ports:
         - containerPort: 80
