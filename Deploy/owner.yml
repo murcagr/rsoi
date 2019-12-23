@@ -7,7 +7,7 @@ spec:
     app: owner
   ports:
     - protocol: TCP
-      port: 5051
+      port: 80
       targetPort: 80
 
 ---

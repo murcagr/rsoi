@@ -7,7 +7,7 @@ spec:
     app: food
   ports:
     - protocol: TCP
-      port: 5053
+      port: 80
       targetPort: 80
 
 ---

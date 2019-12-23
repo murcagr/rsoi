@@ -1,35 +1,39 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: cat-service
+  name: api-gw
 spec:
   selector:
-    app: cat
+    app: gw
+  type: NodePort
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
+      nodePort: 30049
 
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cat
+  name: gw
   labels:
-    app: cat
+    app: gw
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cat
+      app: gw
   template:
     metadata:
       labels:
-        app: cat
+        app: gw
     spec:
       containers:
-      - name: cat
-        image: murcagr/cat-service:latest
+      - name: gw
+        image: murcagr/api-gateway:latest
         ports:
         - containerPort: 80
+      nodeSelector:
+        expo: yep
