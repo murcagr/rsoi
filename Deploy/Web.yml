@@ -5,10 +5,12 @@ metadata:
 spec:
   selector:
     app: web
+  type: NodePort
   ports:
     - protocol: TCP
       port: 5100
       targetPort: 80
+      nodePort: 30100
 
 ---
 
@@ -33,3 +35,5 @@ spec:
         image: murcagr/web:latest
         ports:
         - containerPort: 80
+      nodeSelector:
+        expo: yep 
