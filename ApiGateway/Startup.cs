@@ -46,7 +46,7 @@ namespace ApiGateway
             })
                  .AddIdentityServerAuthentication(options =>
                  {
-                     options.Authority = new Uri(connectionsSection.Get<Connections>().UserApiUrl);
+                     options.Authority = "http://user-service/";
                      options.ApiName = "api1";
                      options.RequireHttpsMetadata = false;
                      options.JwtValidationClockSkew = TimeSpan.Zero;

@@ -43,14 +43,14 @@ namespace User.API.Configs
                     AccessTokenLifetime = 50,
                    
                     RedirectUris = {
-                        "https://localhost:5100/oacallback",
+                        "http://34.69.153.139:30100/oacallback",
                         //"http://localhost:5100/silentRenew.html",
                     },
                     PostLogoutRedirectUris =
                     {
-                        "http://localhost:5100/"
+                        "http://34.69.153.139:30100/"
                     },
-                    AllowedCorsOrigins = { "http://localhost:5100", "https://localhost:5100" },
+                    AllowedCorsOrigins = { "http://34.69.153.139:30100", "https://34.69.153.139:30100" },
                     AllowOfflineAccess = true,
                     AllowedScopes =
                     {
