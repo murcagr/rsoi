@@ -13,7 +13,7 @@ using IdentityModel.Client;
 namespace ApiGateway.Controllers
 {
     [Route("api/gw")]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    //[Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
