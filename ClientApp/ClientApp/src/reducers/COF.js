@@ -1,5 +1,6 @@
-    import configureStore from '../store/configureStore.js';
-
+import configureStore from '../store/configureStore.js';
+import { GATEWAY_ADDR } from '../appconfig';
+import { OAUTH_ADDR } from '../appconfig';
 const updateCotsType = 'UPDATE_CATS';
 const decrementCountType = 'DECREMENT_COUNT';
 const AddCotType = 'ADD_CAT';
@@ -7,7 +8,7 @@ const initialState = { cots: [] };
 
 export const actionCreators = {
     cotsRequest: (page) => (dispatch) => {
-        fetch('https://localhost:5049/api/gw/ownercatfood/?page=' + page, {
+        fetch(`${GATEWAY_ADDR}/api/gw/ownercatfood/?page=` + page, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -26,7 +27,7 @@ export const actionCreators = {
     updateCots: (cots) => ({ type: updateCotsType, cots: cots }),
 
     cofAdd: (catOwnerFood) => (dispatch) => {
-        fetch('https://localhost:5049/api/gw/ownercats', {
+        fetch(`${GATEWAY_ADDR}/api/gw/ownercats`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -50,7 +51,7 @@ export const actionCreators = {
             .catch(console.log)
     },
     cofsDelete: (delCat) => (dispatch) => {
-        fetch('https://localhost:5049/api/gw/ownercats/' + delCat.id, {
+        fetch(`${GATEWAY_ADDR}/api/gw/ownercats/` + delCat.id, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

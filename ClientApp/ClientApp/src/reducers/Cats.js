@@ -1,6 +1,8 @@
 import configureStore from '../store/configureStore.js';
 import { browserHistory, Router, Route } from 'react-router';
 import { push } from 'connected-react-router';
+import { GATEWAY_ADDR } from '../appconfig';
+import { OAUTH_ADDR } from '../appconfig';
 const updateCatsType = 'UPDATE_CATS';
 const decrementCountType = 'DECREMENT_COUNT';
 const AddCatType = 'ADD_CAT';
@@ -8,7 +10,7 @@ const initialState = { cats: [] };
 
 export const actionCreators = {
     catsRequest: () => (dispatch) => {
-        fetch('https://localhost:5049/api/gw/cats')
+        fetch(`${GATEWAY_ADDR}/api/gw/cats`)
             .then(res => res.json())
             .then((data) => {
                 dispatch(actionCreators.updateCats(data));
@@ -21,7 +23,7 @@ export const actionCreators = {
 
 
     catsAdd: (newCat) => (dispatch) => {
-        fetch('https://localhost:5049/api/gw/cats', {
+        fetch(`${GATEWAY_ADDR}/api/gw/cats`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -40,7 +42,7 @@ export const actionCreators = {
     },
 
     catsDelete: (delCat) => (dispatch) => {
-        fetch('https://localhost:5049/api/gw/cats/' + delCat.id.id, {
+        fetch(`${GATEWAY_ADDR}api/gw/cats/` + delCat.id.id, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -60,7 +62,7 @@ export const actionCreators = {
             'client_secret': 'secret',
             'grant_type': 'authorization_code',
             'code': code,
-            'redirect_uri': 'https://localhost:5100/oacallback'
+            'redirect_uri': 'https://localhost:80/oacallback'
         };
 
         var formBody = [];
@@ -71,7 +73,7 @@ export const actionCreators = {
         }
         var formBodyString = formBody.join("&");
 
-        fetch(`http://localhost:5010/connect/token`, {
+        fetch(`${OAUTH_ADDR}/connect/token`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -121,7 +123,7 @@ export const actionCreators = {
         }
         var formBodyString = formBody.join("&");
 
-        fetch(`http://localhost:5010/connect/token`, {
+        fetch(`${OAUTH_ADDR}/connect/token`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
