@@ -5,6 +5,8 @@ import { actionCreators as foodsActions } from '../reducers/Foods';
 import { actionCreators as cotsActions } from '../reducers/COF';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { GATEWAY_ADDR } from '../appconfig';
+import { OAUTH_ADDR } from '../appconfig';
 import ReactPaginate from 'react-paginate';
 import CatList from './CatList';
 import CatsTable from './CatsTableC'
@@ -156,7 +158,7 @@ class CatsPage extends Component {
     
     render() {
         if (!sessionStorage.auth_token) {
-            window.location = 'http://localhost:5010/connect/authorize?client_id=spa&scope=openid profile api1 offline_access&response_type=code&redirect_uri=https://localhost:5100/oacallback';
+            window.location = `http://${OAUTH_ADDR}/connect/authorize?client_id=spa&scope=openid profile api1 offline_access&response_type=code&redirect_uri=https://34.69.153.139:30100/oacallback`;
             return;
         }
         let foodss = this.listItems(this.props.foods)
