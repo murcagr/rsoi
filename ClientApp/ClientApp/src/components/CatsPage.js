@@ -158,7 +158,7 @@ class CatsPage extends Component {
     
     render() {
         if (!sessionStorage.auth_token) {
-            window.location = `http://${OAUTH_ADDR}/connect/authorize?client_id=spa&scope=openid profile api1 offline_access&response_type=code&redirect_uri=https://34.69.153.139:30100/oacallback`;
+            window.location = `${OAUTH_ADDR}/connect/authorize?client_id=spa&scope=openid profile api1 offline_access&response_type=code&redirect_uri=http://34.69.153.139:30100/oacallback`;
             return;
         }
         let foodss = this.listItems(this.props.foods)
