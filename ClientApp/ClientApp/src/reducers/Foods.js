@@ -1,5 +1,6 @@
-    import configureStore from '../store/configureStore.js';
-
+import configureStore from '../store/configureStore.js';
+import { GATEWAY_ADDR } from '../appconfig';
+import { OAUTH_ADDR } from '../appconfig';
 const updateFoodsType = 'UPDATE_FOODS';
 const decrementCountType = 'DECREMENT_COUNT';
 const AddFoodType = 'ADD_FOOD';
@@ -7,7 +8,7 @@ const initialState = { foods: [] };
 
 export const actionCreators = {
     foodsRequest: () => (dispatch) => {
-        fetch('https://localhost:5049/api/gw/foods')
+        fetch(`${GATEWAY_ADDR}/api/gw/foods`)
             .then(res => res.json())
             .then((data) => {
                 dispatch(actionCreators.updateFoods(data));
