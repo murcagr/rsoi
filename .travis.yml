@@ -17,6 +17,7 @@ script:
   - docker images
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker-compose push
+  - gpg --version
   - cd Deploy/
   - gpg echo "$SUPER_KEY" | gpg --batch --yes --passphrase-fd 0 id_rsa.gpg
   - cd ../
