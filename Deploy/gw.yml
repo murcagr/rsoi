@@ -33,6 +33,7 @@ spec:
       containers:
       - name: gw
         image: murcagr/api-gateway:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
       nodeSelector:

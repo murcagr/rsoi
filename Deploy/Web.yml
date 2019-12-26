@@ -33,6 +33,7 @@ spec:
       containers:
       - name: web
         image: murcagr/web:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
       nodeSelector:

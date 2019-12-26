@@ -169,7 +169,7 @@ class CatsPage extends Component {
                 <div class="row justify-content-center" >
                     <div class="col"/>
                     <div class="col align-self-center">
-                        <h1> List of all cats </h1>
+                        <h1> ListTEST of all cats </h1>
                     </div>
                     <div class="col" />
                 </div>

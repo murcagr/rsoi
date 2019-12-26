@@ -33,6 +33,7 @@ spec:
       containers:
       - name: user
         image: murcagr/user-api:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
       nodeSelector:

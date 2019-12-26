@@ -31,5 +31,6 @@ spec:
       containers:
       - name: owner
         image: murcagr/owner-service:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80

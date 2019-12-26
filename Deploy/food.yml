@@ -31,5 +31,6 @@ spec:
       containers:
       - name: food
         image: murcagr/food-service:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80

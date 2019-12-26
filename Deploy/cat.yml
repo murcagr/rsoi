@@ -31,5 +31,6 @@ spec:
       containers:
       - name: cat
         image: murcagr/cat-service:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
