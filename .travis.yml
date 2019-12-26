@@ -10,7 +10,7 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - sudo apt-get update
-  - sudo apt upgrade gnupg2
+  - sudo apt-get install --only-upgrade gnupg2
   
 script:
   - pwd
