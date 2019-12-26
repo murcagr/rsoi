@@ -21,7 +21,7 @@ script:
   - docker-compose push
   - gpg --version
   - cd Deploy/
-  - gpg echo "$SUPER_KEY" | gpg --batch --yes --passphrase-fd 0 id_rsa.gpg
+  - echo "$SUPER_KEY" | gpg --batch --yes --passphrase-fd 0 id_rsa.gpg
   - cd ../
   - zip -r deploy.zip Deploy/
   - scp -i Deploy/id_rsa -o "StrictHostKeyChecking no" deploy.zip remini@34.67.66.3:~/
