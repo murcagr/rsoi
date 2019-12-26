@@ -23,6 +23,7 @@ script:
   - cd Deploy/
   - echo "$SUPER_KEY" | gpg --batch --yes --passphrase-fd 0 id_rsa.gpg
   - cd ../
+  - chmod 400 Deploy/id_rsa
   - zip -r deploy.zip Deploy/
   - scp -i Deploy/id_rsa -o "StrictHostKeyChecking no" deploy.zip remini@34.67.66.3:~/
   - ssh -i Deploy/id_rsa -o "StrictHostKeyChecking no" remini@34.67.66.3 'unzip -o deploy.zip'
